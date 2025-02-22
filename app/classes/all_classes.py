@@ -2,6 +2,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+def get_attn_pad_mask(seq_q, seq_k, device):
+    batch_size, len_q = seq_q.size()
+    batch_size, len_k = seq_k.size()
+    # eq(zero) is PAD token
+    pad_attn_mask = seq_k.data.eq(0).unsqueeze(1).to(device)  # batch_size x 1 x len_k(=len_q), one is masking
+    return pad_attn_mask.expand(batch_size, len_q, len_k)  # batch_size x len_q x len_k
+
 class Embedding(nn.Module):
     def __init__(self, vocab_size, max_len, n_segments, d_model, device):
         super(Embedding, self).__init__()
@@ -41,7 +48,7 @@ class ScaledDotProductAttention(nn.Module):
         attn = nn.Softmax(dim=-1)(scores)
         context = torch.matmul(attn, V)
         return context, attn 
-
+    
 class MultiHeadAttention(nn.Module):
     def __init__(self, n_heads, d_model, d_k, device):
         super(MultiHeadAttention, self).__init__()
@@ -100,16 +107,9 @@ class BERT(nn.Module):
         self.decoder_bias = nn.Parameter(torch.zeros(n_vocab))
         self.device = device
 
-    def get_attn_pad_mask(seq_q, seq_k, device):
-        batch_size, len_q = seq_q.size()
-        batch_size, len_k = seq_k.size()
-        # eq(zero) is PAD token
-        pad_attn_mask = seq_k.data.eq(0).unsqueeze(1).to(device)  # batch_size x 1 x len_k(=len_q), one is masking
-        return pad_attn_mask.expand(batch_size, len_q, len_k)  # batch_size x len_q x len_k
-
     def forward(self, input_ids, segment_ids, masked_pos):
         output = self.embedding(input_ids, segment_ids)
-        enc_self_attn_mask = self.get_attn_pad_mask(input_ids, input_ids, self.device)
+        enc_self_attn_mask = get_attn_pad_mask(input_ids, input_ids, self.device)
         for layer in self.layers:
             output, enc_self_attn = layer(output, enc_self_attn_mask)
         # output : [batch_size, len, d_model], attn : [batch_size, n_heads, d_mode, d_model]
@@ -129,7 +129,7 @@ class BERT(nn.Module):
     
     def get_last_hidden_state(self, input_ids, segment_ids):
         output = self.embedding(input_ids, segment_ids)
-        enc_self_attn_mask = self.get_attn_pad_mask(input_ids, input_ids, self.device)
+        enc_self_attn_mask = get_attn_pad_mask(input_ids, input_ids, self.device)
         for layer in self.layers:
             output, enc_self_attn = layer(output, enc_self_attn_mask)
 
