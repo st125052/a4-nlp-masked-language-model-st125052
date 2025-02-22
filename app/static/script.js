@@ -2,38 +2,42 @@ document.getElementById('searchForm').addEventListener('submit', function (event
     event.preventDefault();
 
     // Get form input
-    const search = document.getElementById('search').value.trim();
+    const premise = document.getElementById('premise').value.trim();
+    const hypothesis = document.getElementById('hypothesis').value.trim();
     let isValid = true;
 
     // Clear previous error messages
-    document.getElementById('searchTextError').textContent = '';
+    document.getElementById('premiseTextError').textContent = '';
+    document.getElementById('hypothesisTextError').textContent = '';
 
     // Validate search text input
-    if (!search || search.length === 0) {
-        document.getElementById('searchTextError').textContent = 'Please enter a valid search text.';
+    if (!premise || premise.length === 0) {
+        document.getElementById('premiseTextError').textContent = 'Please enter a valid premise text.';
+        isValid = false;
+    }
+
+    if (!hypothesis || hypothesis.length === 0) {
+        document.getElementById('hypothesisTextError').textContent = 'Please enter a valid hypothesis text.';
         isValid = false;
     }
 
     if (isValid) {
-        predictRelevantContent(search);
+        predictRelevantContent(premise, hypothesis);
     }
 });
 
-function predictRelevantContent(search) {
-    const apiUrl = `/predict?search=${encodeURIComponent(search)}`;
+function predictRelevantContent(premise, hypothesis) {
+    const apiUrl = `/predict?premise=${encodeURIComponent(premise)}&hypothesis=${encodeURIComponent(hypothesis)}`;
 
     fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
-            if (Array.isArray(data) && data.length > 0) {
+            if (data) {
                 const resultContainer = document.getElementById('resultContainer');
                 const searchResultElement = document.getElementById('searchResult');
 
                 searchResultElement.innerHTML = '';
-
-                data.forEach(word => {
-                    searchResultElement.innerHTML += `${word}`;
-                });
+                searchResultElement.innerHTML = `${data}`;
                 
                 resultContainer.style.display = 'block';
             } else {
