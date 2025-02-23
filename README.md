@@ -68,7 +68,7 @@ Next, the mean-pooling method is applied to obtain fixed-length embeddings for e
 
 The softmax function `(F.softmax)` is applied to convert logits into probability distributions over the three possible NLI classes: 'contradiction', 'neutral', and 'entailment'. The predicted class is determined by identifying the index of the maximum probability using `torch.argmax`. Additionally, the function calculates the cosine similarity between the mean-pooled embeddings of the premise and hypothesis using scikit-learn's `cosine_similarity` function. The cosine similarity provides a numerical measure of how semantically similar the two sentences are, with 1.0 indicating identical vectors and 0.0 indicating orthogonal (unrelated) vectors.
 
-[Analysis Metrics](https://github.com/st125052/a3-nlp-machine-translation-language-st125052/blob/main/notebooks/pdfs/Attentions%20Analysis%20in%20Tasks%202%20and%203.pdf)
+[Analysis Metrics and Challenges Discussion]([https://github.com/st125052/a3-nlp-machine-translation-language-st125052/blob/main/notebooks/pdfs/Attentions%20Analysis%20in%20Tasks%202%20and%203.pdf](https://github.com/st125052/a4-nlp-masked-language-model-st125052/blob/main/notebooks/pdfs/Analysis%20Metrics%20and%20Challenges%20Discussion.pdf))
 
 ## Pickling The Model
 The S-BERT model was chosen for deployment.
