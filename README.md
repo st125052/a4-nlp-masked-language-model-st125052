@@ -127,7 +127,8 @@ https://github.com/user-attachments/assets/8c501a05-ed80-44ca-a3f1-472ad543ba19
 You can access the website [here](https://aitmltask.online). 
 
 # Limitations
-Note that currently, the solution supports slightly accurate translation on the given input. The model may generate gibberish for certain inputs and is a known limitation.
+Note that currently the model is hosted on an ephemeral Colab VM, which disconnects upon inactivity. In a production scenario, this can be mitigated by using the HuggingFace Inference API or a VM that has built in Nvidia GPU support.
+Also, the model predicts incorrect outputs for many pairs of premise and hypothesis, which can be attributed to the fact that the model was trained on a very small portion of the actual dataset.
 
 
 # How to Run the Masked Language Model Docker Container Locally
