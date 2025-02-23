@@ -1,5 +1,3 @@
-
-https://github.com/user-attachments/assets/bcf0f2d5-8efe-4857-bd64-eab60da121c0
 # Name: Swaraj Bhanja | Student Id: st125052
 
 # Welcome to Masked Language Model!
@@ -122,7 +120,7 @@ The following describes the key points of the hosting discussion.
 
 
 # Demo
-https://github.com/user-attachments/assets/59464420-5318-49b7-b4ed-12aadc78daba
+[https://github.com/user-attachments/assets/59464420-5318-49b7-b4ed-12aadc78daba](https://github.com/user-attachments/assets/bcf0f2d5-8efe-4857-bd64-eab60da121c0
 
 
 # Access The Final Website
