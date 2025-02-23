@@ -208,14 +208,14 @@ def predict_nli_class_with_similarity(model, classifier_head, premise, hypothesi
         'cosine_similarity': cosine_sim
     }
 
-def predict_nli_class(premise, hypothesis, isAPI=False):
+def predict_nli_class(premise, hypothesis, isAPI=True):
     if isAPI:
-        URL = "http://swaraj.ngrok.app/predictForA4"
+        URL = "http://swaraj.ngrok.app/predict"
         params = {
             'premise': premise,
             'hypothesis': hypothesis
         }
-        result = requests.get(URL, params=params).json()
+        result = requests.get(URL, params=params).json()['predicted_class']
     else:
         device = get_torch_device()
         bert, classifier_head, tokenizer = get_prerequisites()
