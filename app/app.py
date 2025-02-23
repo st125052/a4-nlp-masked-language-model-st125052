@@ -21,9 +21,7 @@ def serve_custom_path(path):
 def predict_price():
     premise = request.args.get('premise')
     hypothesis = request.args.get('hypothesis')
-    result = predict_nli_class(premise, hypothesis)
-    predicted_class = result['predicted_class']
-    return jsonify(predicted_class)
+    return predict_nli_class(premise, hypothesis)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

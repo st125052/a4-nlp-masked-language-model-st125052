@@ -1,9 +1,4 @@
 Flask
 Flask-CORS
 Werkzeug
-numpy
-torch --index-url https://download.pytorch.org/whl/cu126
-scikit-learn
-transformerse
-tqdm
-pickle-mixin
+requests
